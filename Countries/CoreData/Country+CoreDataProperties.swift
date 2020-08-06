@@ -17,7 +17,8 @@ extension Country {
     }
 
     @NSManaged public var capital: String?
-    @NSManaged public var name: String?
+    // Should have a name otherwise there is no context for user
+    @NSManaged public var name: String
     @NSManaged public var population: Int32
 
 }

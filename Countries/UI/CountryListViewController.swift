@@ -14,7 +14,8 @@ class CountryListViewController: UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var countryTableView: UITableView!
     var countries: [Country]?
-    
+    var populationFormatter = NumberFormatter()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -23,6 +24,9 @@ class CountryListViewController: UIViewController, UITableViewDataSource {
         countryTableView.estimatedRowHeight = 100
         countryTableView.dataSource = self
         countryTableView.accessibilityIdentifier = "CountryTable"
+        
+        populationFormatter.numberStyle = .decimal
+        populationFormatter.locale = Locale(identifier: "en_GB")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,11 +38,11 @@ class CountryListViewController: UIViewController, UITableViewDataSource {
                 return
             }
             HUD.dismiss(from: weakSelf.view.window!)
-            guard error == nil else {
+            guard error == nil, let countries = countries else {
                 assertionFailure("There was an error: \(error!)")
                 return
             }
-            weakSelf.countries = countries
+            weakSelf.countries = countries.sorted(by: {$0.name < $1.name})
             weakSelf.countryTableView.reloadData()
         }
     }
@@ -56,14 +60,19 @@ class CountryListViewController: UIViewController, UITableViewDataSource {
         if let country = countries?[indexPath.row] {
             cell.country.text = country.name
             cell.capital.text = country.capital
-            cell.population.text = String(country.population)
+            cell.population.text = populationFormatter.string(from: NSNumber(value: country.population))
             
-            cell.accessibilityIdentifier = "\(country.name!)-Cell"
+            cell.accessibilityIdentifier = "\(country.name)-Cell"
             cell.country.accessibilityIdentifier = "Country"
-            cell.capital.accessibilityIdentifier = "\(country.name!)-Capital"
-            cell.capitalLabel.accessibilityIdentifier = "\(country.name!)-Capital-Label"
-            cell.population.accessibilityIdentifier = "\(country.name!)-Population"
-            cell.populationLabel.accessibilityIdentifier = "\(country.name!)-Population-Label"
+            cell.capital.accessibilityIdentifier = "\(country.name)-Capital"
+            if let capital = country.capital, capital.isEmpty == false {
+                cell.capitalLabel.accessibilityIdentifier = "\(country.name)-Capital-Label"
+                cell.capitalLabel.isHidden = false
+            } else {
+                cell.capitalLabel.isHidden = true
+            }
+            cell.population.accessibilityIdentifier = "\(country.name)-Population"
+            cell.populationLabel.accessibilityIdentifier = "\(country.name)-Population-Label"
             
         }
         return cell
