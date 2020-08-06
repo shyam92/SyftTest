@@ -58,22 +58,8 @@ class CountryListViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CountryInfoCell") as! CountryTableViewCell
         
         if let country = countries?[indexPath.row] {
-            cell.country.text = country.name
-            cell.capital.text = country.capital
-            cell.population.text = populationFormatter.string(from: NSNumber(value: country.population))
-            
-            cell.accessibilityIdentifier = "\(country.name)-Cell"
-            cell.country.accessibilityIdentifier = "Country"
-            cell.capital.accessibilityIdentifier = "\(country.name)-Capital"
-            if let capital = country.capital, capital.isEmpty == false {
-                cell.capitalLabel.accessibilityIdentifier = "\(country.name)-Capital-Label"
-                cell.capitalLabel.isHidden = false
-            } else {
-                cell.capitalLabel.isHidden = true
-            }
-            cell.population.accessibilityIdentifier = "\(country.name)-Population"
-            cell.populationLabel.accessibilityIdentifier = "\(country.name)-Population-Label"
-            
+            // Setup in cell to contain the data setting to cell
+            cell.setup(with: country, and: populationFormatter)
         }
         return cell
     }

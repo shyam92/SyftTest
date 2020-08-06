@@ -98,4 +98,48 @@ class CountriesUITests: XCTestCase {
         XCTAssertEqual(countries, orderedCountries)
     }
     
+    
+    func testAreas() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let anguillaArea = app.staticTexts["Anguilla-Area"]
+        XCTAssertTrue(anguillaArea.waitForExistence(timeout: kTimeOut))
+        XCTAssertEqual(anguillaArea.label, "91")
+        
+        let brazilArea = app.staticTexts["Brazil-Area"]
+        XCTAssertTrue(brazilArea.waitForExistence(timeout: kTimeOut))
+        XCTAssertEqual(brazilArea.label, "8515767")
+        
+        let chinaArea = app.staticTexts["China-Area"]
+        XCTAssertTrue(chinaArea.waitForExistence(timeout: kTimeOut))
+        XCTAssertEqual(chinaArea.label, "9640011")
+        
+        //United States Minor Outlying Islands
+        let USAIsland = app.staticTexts["United States Minor Outlying Islands-Area-Label"]
+        XCTAssertFalse(USAIsland.waitForExistence(timeout: kTimeOut))
+    }
+    
+    func testRegion() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let americanSamoaRegion = app.staticTexts["American Samoa-Region"]
+        XCTAssertTrue(americanSamoaRegion.waitForExistence(timeout: kTimeOut))
+        XCTAssertEqual(americanSamoaRegion.label, "Oceania")
+        
+        let congoRegion = app.staticTexts["Republic of the Congo-Region"]
+        XCTAssertTrue(congoRegion.waitForExistence(timeout: kTimeOut))
+        XCTAssertEqual(congoRegion.label, "Africa")
+        
+        let falklandIslandsRegion = app.staticTexts["Falkland Islands-Region"]
+        XCTAssertTrue(falklandIslandsRegion.waitForExistence(timeout: kTimeOut))
+        XCTAssertEqual(falklandIslandsRegion.label, "Americas")
+        
+        
+        let faroeIslandsRegion = app.staticTexts["Faroe Islands-Region"]
+        XCTAssertTrue(faroeIslandsRegion.waitForExistence(timeout: kTimeOut))
+        XCTAssertEqual(faroeIslandsRegion.label, "Europe")
+               
+    }
 }

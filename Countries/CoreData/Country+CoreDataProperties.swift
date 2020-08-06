@@ -20,5 +20,7 @@ extension Country {
     // Should have a name otherwise there is no context for user
     @NSManaged public var name: String
     @NSManaged public var population: Int32
-
+    @NSManaged public var area: Int32
+    @NSManaged public var region: String?
+    
 }
